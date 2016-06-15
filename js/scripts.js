@@ -4,29 +4,33 @@ var thirdBoard = boardDimension / 3;
 var xClick;
 var yClick;
 var game;
+var turnCount;
+
 function TicTacToe() {
   this.gameState = 8000000000;
   this.playerTurn = 1;
-}
-
-
+};
 
 TicTacToe.prototype.moveSelect = function(selectedSquare) {
+  turnCount ++;
   if (this.gameState.toString().charAt(10 - selectedSquare.toString().length) != "0") {
     alert("Square already selected.");
     return
   } else {
     this.gameState += (this.playerTurn * selectedSquare);
-    this.checkForWin(this.playerTurn)
-    drawPiece(this.playerTurn, selectedSquare);
+    drawGame();
+    this.checkForWin(this.playerTurn);
     if (this.playerTurn === 1) {
       this.playerTurn = 2;
     } else if (this.playerTurn === 2) {
       this.playerTurn = 1;
     } else {console.log("Something went wrong with player turn")}
   };
-
   console.log(this.gameState);
+  if (turnCount === 9) {
+    alert("The game is a draw! Starting a new game.");
+    initBoard();
+  }
   return this.gameState;
 };
 
@@ -35,62 +39,71 @@ TicTacToe.prototype.checkForWin = function(player) {
   for (var i = 1; i < gameStateString.length; i += 3) {
     if (gameStateString.charAt(i) === gameStateString.charAt(i + 1) && gameStateString.charAt(i) === gameStateString.charAt(i + 2) && gameStateString.charAt(i) === player.toString()) {
       alert("Player " + player + " wins!");
-    } else {
+      initBoard()
     }
-  }
+  };
   for (var i = 1; i <= 3; i ++) {
     if (gameStateString.charAt(i) === gameStateString.charAt(i + 3) && gameStateString.charAt(i) === gameStateString.charAt(i + 6) && gameStateString.charAt(i) === player.toString()) {
       alert("Player " + player + " wins!");
+      initBoard()
     }
-  }
+  };
     if (gameStateString.charAt(1) === gameStateString.charAt(5) && gameStateString.charAt(1) === gameStateString.charAt(9) && gameStateString.charAt(1) === player.toString()) {
       alert("Player " + player + " wins!");
+      initBoard()
   } else if (gameStateString.charAt(3) === gameStateString.charAt(5) && gameStateString.charAt(3) === gameStateString.charAt(7) && gameStateString.charAt(3) === player.toString()) {
     alert("Player " + player + " wins!");
+    initBoard()
   }
-}
+};
+
 
 var initBoard = function() {
-  draw.moveTo(thirdBoard, 0);
-  draw.lineTo(thirdBoard, boardDimension);
-  draw.stroke();
-  draw.moveTo (2 * thirdBoard, 0);
-  draw.lineTo (2 * thirdBoard, boardDimension);
-  draw.stroke();
-  draw.moveTo (0, thirdBoard);
-  draw.lineTo (boardDimension, thirdBoard);
-  draw.stroke();
-  draw.moveTo (0, 2 * thirdBoard);
-  draw.lineTo (boardDimension, 2 * thirdBoard);
-  draw.stroke();
   game = new TicTacToe();
-}
+  drawGame();
+  turnCount = 0
+};
 
-// var drawGame = function() {
-//   draw.rect(thirdBoard, -1, thirdBoard, boardDimension + 2)
-//   draw.rect(-1, thirdBoard, boardDimension + 2, thirdBoard)
-// }
+var drawGame = function() {
+  draw.clearRect(0, 0, canvas.width, canvas.height);
+  draw.rect(thirdBoard, -1, thirdBoard, boardDimension + 2)
+  draw.rect(-1, thirdBoard, boardDimension + 2, thirdBoard)
+  draw.stroke()
 
-
-var drawPiece = function(player, position) {
-  var activePlayer = 'G'
-  if (player === 1) {
-    activePlayer = "X";
-  } else if (player === 2) {
-    activePlayer = "O"
-  } else {
-    console.log('something is wrong with our clicks.')
-  }
-  var positionValue = position.toString().length;
-  if (positionValue % 3 === 1) {
-    var xPos = 0;
-  }
-
-  if (positionValue <= 3) {
-
-  }
-  // draw.fillText(activePlayer, )
-}
+  var drawPieces = game.gameState.toString();
+  for (i = drawPieces.length - 1; i > 0; i --) {
+    var player = "";
+    var pieceToCheck = drawPieces.charAt(i);
+    if (pieceToCheck === "1") {
+      player = "X";
+    } else if (pieceToCheck === "2") {
+      player = "O";
+    } else {
+      player = ""
+    }
+    var xPos;
+    var yPos;
+    if (i % 3 === 0) {
+      xPos = 0;
+    } else if (i % 3 === 2) {
+      xPos = 1;
+    } else if (i % 3 === 1) {
+      xPos = 2;
+    } else {
+      console.log("something went wrong with drawing the pieces");
+    }
+    if (i >= 7) {
+      yPos = 1;
+    } else if (i >= 4) {
+      yPos = 2;
+    } else if (i >= 1) {
+      yPos = 3;
+    } else {
+      console.log("something went wrong with drawing the pieces");
+    }
+    draw.fillText(player, xPos * thirdBoard + 0.04 * boardDimension, yPos * thirdBoard - 0.04 * boardDimension);
+  };
+};
 
 var clickPlacer = function(x, y) {
   var clickValue = 0
@@ -121,18 +134,15 @@ $(document).ready(function() {
   draw = canvas.getContext("2d");
   canvas.width = boardDimension
   canvas.height = boardDimension
-
+  draw.font = thirdBoard + "px Arial"
   initBoard();
   canvas.addEventListener("mousedown", getPosition, false);
   function getPosition(event) {
     var x = event.x;
     var y = event.y;
-
     var canvas = document.getElementById("canvas");
-
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
-
     xClick = x;
     yClick = y;
     clickPlacer(x, y);
