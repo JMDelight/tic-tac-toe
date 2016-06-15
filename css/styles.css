@@ -1,0 +1,7 @@
+.game-board {
+  padding: 50px;
+}
+
+#canvas {
+    background-color: #eee;
+}
