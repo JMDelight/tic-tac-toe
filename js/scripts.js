@@ -3,19 +3,27 @@ var boardDimension = 600;
 var thirdBoard = boardDimension / 3;
 
 function TicTacToe() {
-  this.gameState = 1000000000;
+  this.gameState = 8000000000;
   this.playerTurn = 1;
 }
 
 TicTacToe.prototype.moveSelect = function(selectedSquare) {
-  this.gameState += (this.playerTurn * selectedSquare);
-  if (this.playerTurn === 1) {
-    this.playerTurn = 2;
-  } else if (this.playerTurn === 2) {
-    this.playerTurn = 1;
-  } else {console.log("Something went wrong with player turn")}
-  return this.gameState;
+  if (this.gameState.toString().charAt(10 - selectedSquare.toString().length) != "0") {
+    alert("Square already selected.");
+    return
+  } else {
+    this.gameState += (this.playerTurn * selectedSquare);
+    if (this.playerTurn === 1) {
+      this.playerTurn = 2;
+    } else if (this.playerTurn === 2) {
+      this.playerTurn = 1;
+    } else {console.log("Something went wrong with player turn")}
+    return this.gameState;
+  };
 };
+
+var click
+
 
 
 var initBoard = function() {
