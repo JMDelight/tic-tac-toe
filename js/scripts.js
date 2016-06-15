@@ -7,9 +7,14 @@ function TicTacToe() {
   this.playerTurn = 1;
 }
 
-TicTacToe.prototype.moveSelect = function() {
-  this.gameState += this.playerturn;
-  return.this.gameState;
+TicTacToe.prototype.moveSelect = function(selectedSquare) {
+  this.gameState += (this.playerTurn * selectedSquare);
+  if (this.playerTurn === 1) {
+    this.playerTurn = 2;
+  } else if (this.playerTurn === 2) {
+    this.playerTurn = 1;
+  } else {console.log("Something went wrong with player turn")}
+  return this.gameState;
 };
 
 
