@@ -13,6 +13,7 @@ TicTacToe.prototype.moveSelect = function(selectedSquare) {
     return
   } else {
     this.gameState += (this.playerTurn * selectedSquare);
+    this.checkForWin(this.playerTurn)
     if (this.playerTurn === 1) {
       this.playerTurn = 2;
     } else if (this.playerTurn === 2) {
@@ -22,8 +23,27 @@ TicTacToe.prototype.moveSelect = function(selectedSquare) {
   };
 };
 
-var click
+TicTacToe.prototype.checkForWin = function(player) {
 
+  var gameStateString = this.gameState.toString();
+  for (var i = 1; i < gameStateString.length; i += 3) {
+    if (gameStateString.charAt(i) === gameStateString.charAt(i + 1) && gameStateString.charAt(i) === gameStateString.charAt(i + 2) && gameStateString.charAt(i) === player.toString()) {
+      alert("Player " + player + " wins!");
+    } else {
+    }
+  }
+  for (var i = 1; i <= 3; i ++) {
+    if (gameStateString.charAt(i) === gameStateString.charAt(i + 3) && gameStateString.charAt(i) === gameStateString.charAt(i + 6) && gameStateString.charAt(i) === player.toString()) {
+      alert("Player " + player + " wins!");
+    }
+  }
+
+    if (gameStateString.charAt(1) === gameStateString.charAt(5) && gameStateString.charAt(1) === gameStateString.charAt(9) && gameStateString.charAt(1) === player.toString()) {
+      alert("Player " + player + " wins!");
+  } else if (gameStateString.charAt(3) === gameStateString.charAt(5) && gameStateString.charAt(3) === gameStateString.charAt(7) && gameStateString.charAt(3) === player.toString()) {
+    alert("Player " + player + " wins!");
+  }
+}
 
 
 var initBoard = function() {
