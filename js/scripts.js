@@ -18,12 +18,14 @@ TicTacToe.prototype.moveSelect = function(selectedSquare) {
   } else {
     this.gameState += (this.playerTurn * selectedSquare);
     this.checkForWin(this.playerTurn)
+    drawPiece(this.playerTurn, selectedSquare);
     if (this.playerTurn === 1) {
       this.playerTurn = 2;
     } else if (this.playerTurn === 2) {
       this.playerTurn = 1;
     } else {console.log("Something went wrong with player turn")}
   };
+
   console.log(this.gameState);
   return this.gameState;
 };
@@ -64,6 +66,12 @@ var initBoard = function() {
   game = new TicTacToe();
 }
 
+// var drawGame = function() {
+//   draw.rect(thirdBoard, -1, thirdBoard, boardDimension + 2)
+//   draw.rect(-1, thirdBoard, boardDimension + 2, thirdBoard)
+// }
+
+
 var drawPiece = function(player, position) {
   var activePlayer = 'G'
   if (player === 1) {
@@ -73,7 +81,15 @@ var drawPiece = function(player, position) {
   } else {
     console.log('something is wrong with our clicks.')
   }
-  draw.fillText(activePlayer, )
+  var positionValue = position.toString().length;
+  if (positionValue % 3 === 1) {
+    var xPos = 0;
+  }
+
+  if (positionValue <= 3) {
+
+  }
+  // draw.fillText(activePlayer, )
 }
 
 var clickPlacer = function(x, y) {
