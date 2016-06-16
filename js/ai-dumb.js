@@ -1,13 +1,13 @@
 var boardDimension = 600;
 var thirdBoard = boardDimension / 3;
 var game;
-var turnCount;
 var canvas = document.getElementById('canvas');
 var draw = canvas.getContext("2d");
 
 function TicTacToe() {
   this.gameState = 8000000000;
   this.playerTurn = 1;
+  this.turnCount = 0
 };
 
 // ---This is the prototype for an AI that selects squares at random --- //
@@ -20,13 +20,15 @@ TicTacToe.prototype.aiTurn = function() {
       this.moveSelect(Math.pow(10, random));
       return;
     }
+  };
+};
 
-  }
-}
+TicTacToe.prototype.aiMedTurn = function() {
+
+};
 
 TicTacToe.prototype.moveSelect = function(selectedSquare) {
-  turnCount ++;
-  console.log(turnCount);
+  this.turnCount ++;
   if (this.gameState.toString().charAt(10 - selectedSquare.toString().length) != "0") {
     alert("Square already selected.");
     return;
@@ -34,7 +36,7 @@ TicTacToe.prototype.moveSelect = function(selectedSquare) {
     this.gameState += (this.playerTurn * selectedSquare);
     drawGame();
     if (!this.checkForWin(this.playerTurn)) {
-      if (turnCount === 9) {
+      if (this.turnCount === 9) {
         alert("The game is a draw! Starting a new game.");
         initBoard();
         return;
@@ -52,6 +54,8 @@ TicTacToe.prototype.moveSelect = function(selectedSquare) {
 TicTacToe.prototype.checkForWin = function(player) {
   var gameStateString = this.gameState.toString();
   var winningScore = 0;
+  var diagonalOne = 0;
+  var diagonalTwo = 0;
   for (var i = 1; i < gameStateString.length; i += 3) {
     winningScore = (gameStateString.charAt(i) === player.toString()) +
      (gameStateString.charAt(i + 1) === player.toString()) +
@@ -73,15 +77,13 @@ TicTacToe.prototype.checkForWin = function(player) {
       return true;
     }
   };
-  if ((gameStateString.charAt(5) === player.toString() +
-  gameStateString.charAt(9) === player.toString() +
-  gameStateString.charAt(1) === player.toString()) === 3) {
-    alert("Player " + player + " wins!");
-    initBoard();
-    return true;
-  } else if ((gameStateString.charAt(3) === player.toString() +
-  gameStateString.charAt(5) === player.toString() +
-  gameStateString.charAt(7) === player.toString()) === 3) {
+  diagonalOne = (gameStateString.charAt(1) === player.toString()) +
+                    (gameStateString.charAt(5) === player.toString()) +
+                    (gameStateString.charAt(9) === player.toString());
+  diagonalTwo = (gameStateString.charAt(3) === player.toString()) +
+                    (gameStateString.charAt(5) === player.toString()) +
+                    (gameStateString.charAt(7) === player.toString());
+  if (diagonalOne === 3 || diagonalTwo === 3) {
     alert("Player " + player + " wins!");
     initBoard();
     return true;
@@ -152,7 +154,6 @@ var resizeCanvas = function() {
 var initBoard = function() {
   game = new TicTacToe();
   drawGame();
-  turnCount = 0;
 };
 
 var clickPlacer = function(x, y) {
