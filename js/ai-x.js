@@ -1,17 +1,19 @@
 var boardDimension = 600;
 var thirdBoard = boardDimension / 3;
 var game;
-var turnCount;
+var turnCount = 1;
 var canvas = document.getElementById('canvas');
 var draw = canvas.getContext("2d");
+var playerChoice = 0;
 
 function TicTacToe() {
-  this.gameState = 8000000000;
-  this.playerTurn = 1;
+  this.gameState = 8000000001;
+  this.playerTurn = 2;
 };
 
 TicTacToe.prototype.moveSelect = function(selectedSquare) {
   turnCount ++;
+  playerChoice = selectedSquare;
   if (this.gameState.toString().charAt(10 - selectedSquare.toString().length) != "0") {
     alert("Square already selected.");
     return;
@@ -29,26 +31,30 @@ TicTacToe.prototype.moveSelect = function(selectedSquare) {
     alert("The game is a draw! Starting a new game.");
     initBoard();
   } else {return this.gameState;}
+  if (turnCount % 2 === 1) {
+    this.aiForX();
 };
+
+TicTacToe.prototype.aiForX = function() {
+
+
+}
 
 TicTacToe.prototype.checkForWin = function(player) {
   var gameStateString = this.gameState.toString();
-  var winningScore = 0;
   for (var i = 1; i < gameStateString.length; i += 3) {
-    winningScore = (gameStateString.charAt(i) === gameStateString.charAt(i + 1)) +
-     (gameStateString.charAt(i) === gameStateString.charAt(i + 2)) +
-     (gameStateString.charAt(i) === player.toString())
-     if (winningScore === 3) {
+    if (gameStateString.charAt(i) === gameStateString.charAt(i + 1) &&
+     gameStateString.charAt(i) === gameStateString.charAt(i + 2) &&
+     gameStateString.charAt(i) === player.toString()) {
       alert("Player " + player + " wins!");
       initBoard();
       return;
     }
   };
   for (var i = 1; i <= 3; i ++) {
-    winningScore = (gameStateString.charAt(i) === gameStateString.charAt(i + 3)) +
-    (gameStateString.charAt(i) === gameStateString.charAt(i + 6)) +
-    (gameStateString.charAt(i) === player.toString())
-    if (winningScore === 3) {
+    if (gameStateString.charAt(i) === gameStateString.charAt(i + 3) &&
+    gameStateString.charAt(i) === gameStateString.charAt(i + 6) &&
+    gameStateString.charAt(i) === player.toString()) {
       alert("Player " + player + " wins!");
       initBoard();
       return;
