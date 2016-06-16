@@ -38,7 +38,8 @@ TicTacToe.prototype.checkForWin = function(player) {
      gameStateString.charAt(i) === gameStateString.charAt(i + 2) &&
      gameStateString.charAt(i) === player.toString()) {
       alert("Player " + player + " wins!");
-      initBoard()
+      initBoard();
+      return;
     }
   };
   for (var i = 1; i <= 3; i ++) {
@@ -46,19 +47,20 @@ TicTacToe.prototype.checkForWin = function(player) {
     gameStateString.charAt(i) === gameStateString.charAt(i + 6) &&
     gameStateString.charAt(i) === player.toString()) {
       alert("Player " + player + " wins!");
-      initBoard()
+      initBoard();
+      return;
     }
   };
   if (gameStateString.charAt(1) === gameStateString.charAt(5) &&
   gameStateString.charAt(1) === gameStateString.charAt(9) &&
   gameStateString.charAt(1) === player.toString()) {
     alert("Player " + player + " wins!");
-    initBoard()
+    initBoard();
   } else if (gameStateString.charAt(3) === gameStateString.charAt(5) &&
   gameStateString.charAt(3) === gameStateString.charAt(7) &&
   gameStateString.charAt(3) === player.toString()) {
     alert("Player " + player + " wins!");
-    initBoard()
+    initBoard();
   }
 };
 
