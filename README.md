@@ -2,9 +2,6 @@
 
 #### _A basic canvas based html5/js tic tac toe game, 16 June 2016_
 
-#### View this website on my [github pages][1]
-[1]: http://jmdelight.github.io/vacation-quiz/ "Vacation Quiz"
-
 #### By _**Joel Delight & Patrick Lipscombe**_
 
 ## Setup/Installation Requirements
